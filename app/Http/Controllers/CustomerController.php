@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CustomerCollection;
+use App\Http\Resources\CustomerResource;
 use App\Model\Customer;
 use Illuminate\Http\Request;
 
@@ -14,7 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return Customer::all();
+        return new CustomerCollection(Customer::paginate());
     }
 
     /**
@@ -44,9 +46,9 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Customer $id)
     {
-        //
+        return new CustomerResource($id);
     }
 
     /**

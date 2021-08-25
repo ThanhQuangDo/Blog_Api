@@ -1,9 +1,9 @@
 <?php
 
-use App\Model\Customer;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class CustomerSeeder extends Seeder
+class ProductSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,8 @@ class CustomerSeeder extends Seeder
      */
     public function run()
     {
-        factory(Customer::class, 20)->create();
+        DB::table('products')->insert([
+            'name' => 'iphone',
+        ]);
     }
 }

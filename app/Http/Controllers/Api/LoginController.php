@@ -36,7 +36,6 @@ class LoginController extends Controller
 
     public function refreshToken(Request $request){
         $token = $request->header('token');
-        
         $checkToken = SessionUser::where('token', $token)->first();
         
         if($checkToken){
@@ -51,6 +50,10 @@ class LoginController extends Controller
             }
         }
         $dataSession = SessionUser::find($checkToken->id);
-        return response()->json($dataSession, 200);
+        return response()->json([
+            'status' => true,
+            'message' => 'refresh token success',
+            'data' => $dataSession
+        ], 200);
     }
 }

@@ -33,4 +33,24 @@ class LoginController extends Controller
             return response()->json('username or password fail', 401);
         }
     }
+
+    public function refreshToken(Request $request){
+        $token = $request->header('token');
+        
+        $checkToken = SessionUser::where('token', $token)->first();
+        
+        if($checkToken){
+
+            if($checkToken->token_expried < time()){
+                $checkToken->update([
+                    'token' => Str::random(40),
+                    'refresh_token' => Str::random(40),
+                    'token_expried' => date('Y-m-d H:i:s', strtotime('+30 day')),
+                    'refresh_token_expried' => date('Y-m-d H:i:s', strtotime('+360 day'))
+                ]);
+            }
+        }
+        $dataSession = SessionUser::find($checkToken->id);
+        return response()->json($dataSession, 200);
+    }
 }
